@@ -24,6 +24,7 @@ def message_received(client, server, message):
     with open(_file, 'a') as File:
         write = csv.writer(File, dialect='excel')
         # write a new row the the csv file
+        # TODO Handle json formatted data before saving
         write.writerow([message, str(read_time)])
 
 
