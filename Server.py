@@ -2,6 +2,7 @@ from websocket_server import WebsocketServer
 from time import time
 from datetime import datetime
 import csv
+import json
 import logging
 
 _file = ("{}-ABS_IMU.csv".format(datetime.now().date()))
@@ -18,7 +19,11 @@ def new_client(client, server):
 def message_received(client, server, message):
     if len(message) > 200:
         message = message[:200]+'..'
-    print("Client(%d) said: %s" % (client['id'], message))
+    #print("Client(%d) said: %s" % (client['id'], message))
+    #msg = json.load(message)
+    print(message)
+    data = json.loads(message)
+    print(data['Accelerometer'])
     # Get read time
     read_time = time()-start_time
     with open(_file, 'a') as File:
