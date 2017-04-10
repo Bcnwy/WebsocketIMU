@@ -2,9 +2,11 @@ from websocket_server import WebsocketServer
 from time import time
 from datetime import datetime
 import csv
+import json
 import logging
 
-_file = ("{}-ABS_IMU.csv".format(datetime.now().date()))
+_file_Quaterion = ("{}-Quaterion.csv".format(datetime.now().date()))
+_file_IMU = ("{}-IMU.csv".format(datetime.now().date()))
 start_time = 0
 
 
@@ -18,14 +20,27 @@ def new_client(client, server):
 def message_received(client, server, message):
     if len(message) > 200:
         message = message[:200]+'..'
-    print("Client(%d) said: %s" % (client['id'], message))
-    # Get read time
-    read_time = time()-start_time
-    with open(_file, 'a') as File:
-        write = csv.writer(File, dialect='excel')
-        # write a new row the the csv file
-        # TODO Handle json formatted data before saving
-        write.writerow([message, str(read_time)])
+    # print("Client(%d) said: %s" % (client['id'], message))
+    # msg = json.load(message)
+    print(message)
+    data = json.loads(message)
+    print(data['Accelerometer'])
+
+    if data['Accelerometer']:
+        # Get read time
+        read_time = time()-start_time
+        with open(_file_IMU, 'a') as File:
+            write = csv.writer(File, dialect='excel')
+            # write a new row the the csv file
+            write.writerow([data['Accelerometer'], str(read_time)])
+
+    if data['Quaterion']:
+        # Get read time
+        read_time = time() - start_time
+        with open(_file_Quaterion, 'a') as File:
+            write = csv.writer(File, dialect='excel')
+            # write a new row the the csv file
+            write.writerow([data['Quaterion'], str(read_time)])
 
 
 # Called for every client disconnecting
