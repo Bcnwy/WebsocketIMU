@@ -49,7 +49,12 @@ def client_left(client, server):
 
 
 if __name__ == '__main__':
-    with open(_file, 'w') as csvFile:
+    with open(_file_Quaterion, 'w') as csvFile:
+        writer = csv.writer(csvFile, dialect='excel')
+        # write a new row the the csv file
+        writer.writerow([str.format('{0}', datetime.now())])
+
+    with open(_file_IMU, 'w') as csvFile:
         writer = csv.writer(csvFile, dialect='excel')
         # write a new row the the csv file
         writer.writerow([str.format('{0}', datetime.now())])
