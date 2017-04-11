@@ -24,9 +24,9 @@ def message_received(client, server, message):
     # msg = json.load(message)
     print(message)
     data = json.loads(message)
-    print(data['Accelerometer'])
+   # print(data['Accelerometer'])
 
-    if data['Accelerometer']:
+    if data == "Accelerometer":
         # Get read time
         read_time = time()-start_time
         with open(_file_IMU, 'a') as File:
@@ -34,7 +34,7 @@ def message_received(client, server, message):
             # write a new row the the csv file
             write.writerow([data['Accelerometer'], str(read_time)])
 
-    if data['Quaterion']:
+    if data == "Quaterion":
         # Get read time
         read_time = time() - start_time
         with open(_file_Quaterion, 'a') as File:
