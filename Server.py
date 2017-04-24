@@ -21,11 +21,10 @@ def message_received(client, server, message):
     if len(message) > 200:
         message = message[:200]+'..'
     # print("Client(%d) said: %s" % (client['id'], message))
-    print(message)
+    print(message + str(time()-start_time))
     data = json.loads(message)
 
     #print(data['Accelerometer'])
-
     if 'Accelerometer' in data:
         # Get read time
         read_time = time()-start_time
@@ -45,7 +44,7 @@ def message_received(client, server, message):
         with open(_file_Quaterion, 'ab') as File:
             write = csv.writer(File, dialect='excel')
             # write a new row the the csv file
-            write.writerow([data['Quaterion']['w'], str(read_time)])
+            write.writerow([data['Quaterion']['w']])
 
 
 # Called for every client disconnecting
