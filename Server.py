@@ -5,7 +5,7 @@ from time import time
 
 from websocket_server import WebsocketServer
 
-_file_Quaterion = ("{}-Quaterion.csv".format(datetime.now().date()))
+_file_Quaterion = ("{}-Quaternion.txt".format(datetime.now().date()))
 _file_IMU = ("{}-IMU.txt".format(datetime.now().date()))
 start_time = 0
 
@@ -38,13 +38,19 @@ def message_received(client, server, message):
                 data['Time'],
                 str(read_time)])
 
-    if 'Quaterion' in data:
+    if 'Quaternion' in data:
         # Get read time
         read_time = time() - start_time
-        with open(_file_Quaterion, 'ab') as File:
+        with open(_file_Quaterion, 'a') as File:
             write = csv.writer(File, dialect='excel')
             # write a new row the the csv file
-            write.writerow([data['Quaterion']['w']])
+            write.writerow([
+                data['Quaternion']['w'],
+                data['Quaternion']['x'],
+                data['Quaternion']['y'],
+                data['Quaternion']['z'],
+                data['Time'],
+                str(read_time)])
 
 
 # Called for every client disconnecting
@@ -53,6 +59,7 @@ def client_left(client, server):
 
 
 if __name__ == '__main__':
+    # TODO: check if file is open before trying to open it
     with open(_file_Quaterion, 'w') as csvFile:
         writer = csv.writer(csvFile, dialect='excel')
         # write a new row the the csv file
